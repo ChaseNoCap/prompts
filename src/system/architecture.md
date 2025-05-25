@@ -15,7 +15,7 @@
     <category name="Core Infrastructure">
       <package name="logger">
         <purpose>Structured logging with Winston</purpose>
-        <status>Published to GitHub Packages (@chasenogap/logger)</status>
+        <status>Published to GitHub Packages (@chasenocap/logger)</status>
         <coverage>90%+</coverage>
         <size>~300 lines</size>
         <type>shared_published</type>
@@ -151,7 +151,7 @@
     
     <published_packages>
       <description>Shared utilities published to GitHub Packages</description>
-      <examples>@chasenogap/logger</examples>
+      <examples>@chasenocap/logger</examples>
       <workflow>Develop locally → Publish → Consume externally</workflow>
     </published_packages>
     

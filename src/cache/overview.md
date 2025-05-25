@@ -42,7 +42,7 @@
   
   <dependencies>
     <dependency>inversify</dependency>
-    <dependency optional="true">@chasenogap/logger</dependency>
+    <dependency optional="true">@chasenocap/logger</dependency>
     <dependency optional="true">event-system</dependency>
   </dependencies>
   

@@ -1,5 +1,5 @@
 {
-  "name": "prompts",
+  "name": "@chasenocap/prompts",
   "version": "1.0.0",
   "description": "Central prompt repository mirroring project structure for AI context loading",
   "type": "module",
@@ -15,7 +15,8 @@
     "build-context:list": "tsx scripts/build-context.ts --list",
     "build-context:system": "tsx scripts/build-context.ts --scope system --format xml",
     "build-context:full": "tsx scripts/build-context.ts --scope full --format json --output dist/full-context.json",
-    "automation:all": "npm run validate && npm run update-status && npm run build-context:full"
+    "automation:all": "npm run validate && npm run update-status && npm run build-context:full",
+    "prepublishOnly": "npm run build && npm run automation:all"
   },
   "keywords": [
     "prompts",
@@ -25,6 +26,17 @@
     "h1b",
     "monorepo"
   ],
+  "author": "ChaseNoCap",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChaseNoCap/h1b-visa-analysis.git",
+    "directory": "packages/prompts"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "dependencies": {
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
@@ -38,6 +50,10 @@
     "dist/",
     "src/",
     "templates/",
-    "README.md"
-  ]
+    "README.md",
+    "CLAUDE.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
 }

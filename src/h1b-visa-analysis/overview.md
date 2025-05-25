@@ -32,7 +32,7 @@
   <dependencies>
     <core_packages>
       <package>di-framework</package>
-      <package>@chasenogap/logger</package>
+      <package>@chasenocap/logger</package>
       <package>cache</package>
       <package>file-system</package>
       <package>event-system</package>

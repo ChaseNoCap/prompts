@@ -31,7 +31,7 @@
       <dependency>file-system</dependency>
       <dependency>cache</dependency>
       <dependency>report-templates</dependency>
-      <dependency>@chasenogap/logger</dependency>
+      <dependency>@chasenocap/logger</dependency>
       <dependency>reflect-metadata</dependency>
       <dependency>inversify</dependency>
     </production>
@@ -86,7 +86,7 @@
 - file-system
 - cache
 - report-templates
-- @chasenogap/logger
+- @chasenocap/logger
 - reflect-metadata
 - inversify
 

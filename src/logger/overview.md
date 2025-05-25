@@ -10,7 +10,7 @@
   </metadata>
   
   <purpose>
-    Structured logging with Winston, published to GitHub Packages as @chasenogap/logger
+    Structured logging with Winston, published to GitHub Packages as @chasenocap/logger
   </purpose>
   
   <features>
@@ -24,7 +24,7 @@
   
   <usage_example>
     <![CDATA[
-    import { createLogger, ILogger } from '@chasenogap/logger';
+    import { createLogger, ILogger } from '@chasenocap/logger';
     
     const logger = createLogger('my-service');
     
@@ -91,7 +91,7 @@ As a published package, logger integrates with:
 - **Coverage**: 90%+ test coverage
 - **Size**: ~300 lines (lightweight implementation)
 - **State**: Production-ready and stable
-- **Distribution**: Published as `@chasenogap/logger`
+- **Distribution**: Published as `@chasenocap/logger`
 
 ## Usage Patterns
 

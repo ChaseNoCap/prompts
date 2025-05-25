@@ -316,7 +316,7 @@ Convenience function for creating logger with defaults
 <param name="config" type="Partial<ILoggerConfig>" optional="true">Override default configuration</param>
 <returns>Configured logger instance</returns>
 <example>
-import { createLogger } from '@chasenogap/logger';
+import { createLogger } from '@chasenocap/logger';
 
 const logger = createLogger({
   level: 'debug',

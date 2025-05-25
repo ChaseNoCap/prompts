@@ -1,7 +1,7 @@
 # Logger Package Integration Guide
 
 <integration_overview>
-The logger package serves as the foundation for observability across the monorepo. As a published GitHub package (@chasenogap/logger), it provides consistent structured logging that integrates with all services through dependency injection while maintaining zero coupling to other packages.
+The logger package serves as the foundation for observability across the monorepo. As a published GitHub package (@chasenocap/logger), it provides consistent structured logging that integrates with all services through dependency injection while maintaining zero coupling to other packages.
 </integration_overview>
 
 ## Package Dependencies
@@ -28,7 +28,7 @@ Used for @injectable() decorator to enable DI integration
 Logger is registered as singleton in DI container for shared logging across all services
 </description>
 <code>
-import { WinstonLogger } from '@chasenogap/logger';
+import { WinstonLogger } from '@chasenocap/logger';
 
 // In container configuration
 container.bind&lt;ILogger&gt;(TYPES.ILogger)
@@ -444,7 +444,7 @@ console.error('Failed to connect to database:', error);
 console.warn('Deprecation warning:', message);
 </from>
 <to>
-import type { ILogger } from '@chasenogap/logger';
+import type { ILogger } from '@chasenocap/logger';
 
 constructor(
   @inject(TYPES.ILogger) private logger: ILogger

@@ -104,7 +104,7 @@ Standard pattern for services that need file system access
 <implementation>
 import { injectable, inject } from 'inversify';
 import type { IFileSystem } from 'file-system';
-import type { ILogger } from '@chasenogap/logger';
+import type { ILogger } from '@chasenocap/logger';
 import { TYPES } from '../constants/injection-tokens.js';
 
 @injectable()

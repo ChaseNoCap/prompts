@@ -276,7 +276,7 @@ async function findDependents(packageName: string, allPackages: PackageMetadata[
   for (const pkg of allPackages) {
     if (pkg.dependencies.includes(packageName) || 
         pkg.devDependencies.includes(packageName) ||
-        pkg.dependencies.includes(`@chasenogap/${packageName}`)) {
+        pkg.dependencies.includes(`@chasenocap/${packageName}`)) {
       dependents.push(pkg.name);
     }
   }
