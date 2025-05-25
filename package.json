@@ -1,0 +1,43 @@
+{
+  "name": "prompts",
+  "version": "1.0.0",
+  "description": "Central prompt repository mirroring project structure for AI context loading",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "validate": "tsx scripts/validate-structure.ts",
+    "validate:create": "tsx scripts/validate-structure.ts --create",
+    "update-status": "tsx scripts/update-status.ts",
+    "build-context": "tsx scripts/build-context.ts",
+    "build-context:list": "tsx scripts/build-context.ts --list",
+    "build-context:system": "tsx scripts/build-context.ts --scope system --format xml",
+    "build-context:full": "tsx scripts/build-context.ts --scope full --format json --output dist/full-context.json",
+    "automation:all": "npm run validate && npm run update-status && npm run build-context:full"
+  },
+  "keywords": [
+    "prompts",
+    "ai",
+    "context",
+    "documentation",
+    "h1b",
+    "monorepo"
+  ],
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "templates/",
+    "README.md"
+  ]
+}
