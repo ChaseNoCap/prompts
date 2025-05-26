@@ -1,0 +1,131 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+      - '.eslintrc.*'
+      - '.prettierrc*'
+      - '.vscode/**'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type (patch, minor, major)'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  packages: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@chasenocap:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PAT_TOKEN }}" >> ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build package
+        run: npm run build
+
+      - name: Get current version
+        id: current_version
+        run: echo "version=$(npm pkg get version | tr -d '"')" >> $GITHUB_OUTPUT
+
+      - name: Bump version (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version
+          echo "version=$(npm pkg get version | tr -d '"')" >> $GITHUB_ENV
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Get package name and new version
+        id: package_info
+        run: |
+          echo "name=$(npm pkg get name | tr -d '"' | sed 's/@chasenocap\///')" >> $GITHUB_OUTPUT
+          echo "version=$(npm pkg get version | tr -d '"')" >> $GITHUB_OUTPUT
+
+      - name: Create Git tag
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to ${{ steps.package_info.outputs.version }}"
+          git tag "v${{ steps.package_info.outputs.version }}"
+          git push origin main
+          git push origin "v${{ steps.package_info.outputs.version }}"
+
+      - name: Notify parent repository
+        if: success()
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+            https://api.github.com/repos/ChaseNoCap/h1b-visa-analysis/dispatches \
+            -d '{
+              "event_type": "package-published",
+              "client_payload": {
+                "package": "${{ steps.package_info.outputs.name }}",
+                "version": "${{ steps.package_info.outputs.version }}",
+                "repository": "${{ github.repository }}"
+              }
+            }'
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.package_info.outputs.version }}
+          name: Release v${{ steps.package_info.outputs.version }}
+          body: |
+            ## Changes
+            
+            Published version ${{ steps.package_info.outputs.version }} of ${{ steps.package_info.outputs.name }} package.
+            
+            ### Installation
+            ```bash
+            npm install @chasenocap/${{ steps.package_info.outputs.name }}@${{ steps.package_info.outputs.version }}
+            ```
+            
+            ---
+            *This release was automatically created by the publish workflow.*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
