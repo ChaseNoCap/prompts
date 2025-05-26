@@ -46,9 +46,11 @@ jobs:
 
       - name: Configure npm for GitHub Packages
         run: |
-          echo "@chasenocap:registry=https://npm.pkg.github.com" >> ~/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PAT_TOKEN }}" >> ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+          npm config set @chasenocap:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.PAT_TOKEN }}
+          npm config set registry https://registry.npmjs.org/
+          echo "NPM configuration:"
+          npm config list
 
       - name: Install dependencies
         run: npm ci
