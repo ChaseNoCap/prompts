@@ -55,5 +55,11 @@
   ],
   "engines": {
     "node": ">=16.0.0"
+  },
+  "tier": "app",
+  "unifiedDependencies": {
+    "tier": "app",
+    "strategy": "coordinate-15min",
+    "localDevelopment": true
   }
 }
