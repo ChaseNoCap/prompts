@@ -119,26 +119,26 @@ jobs:
           
       - name: Create GitHub Release (Pipeline Mode Only)
         if: steps.mode.outputs.publish == 'true'
-        uses: actions/create-release@v1
+        run: |
+          echo "📋 Creating GitHub Release for ${{ steps.mode.outputs.tag }}..."
+          
+          # Use gh CLI to create release (more reliable than action)
+          gh release create "${{ steps.mode.outputs.tag }}" \
+            --title "Release ${{ steps.mode.outputs.version }}" \
+            --notes "## 📦 Package Release ${{ steps.mode.outputs.version }}
+          
+          Published to GitHub Packages: \`@chasenocap/${{ github.event.repository.name }}@${{ steps.mode.outputs.version }}\`
+          
+          ### Installation
+          \`\`\`bash
+          npm install @chasenocap/${{ github.event.repository.name }}@${{ steps.mode.outputs.version }}
+          \`\`\`
+          
+          ### Changes
+          See [commit history](https://github.com/${{ github.repository }}/commits/${{ steps.mode.outputs.tag }}) for details." \
+            ${{ steps.mode.outputs.prerelease == 'true' && '--prerelease' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.mode.outputs.tag }}
-          release_name: Release ${{ steps.mode.outputs.version }}
-          body: |
-            ## 📦 Package Release ${{ steps.mode.outputs.version }}
-            
-            Published to GitHub Packages: `@chasenocap/${{ github.event.repository.name }}@${{ steps.mode.outputs.version }}`
-            
-            ### Installation
-            ```bash
-            npm install @chasenocap/${{ github.event.repository.name }}@${{ steps.mode.outputs.version }}
-            ```
-            
-            ### Changes
-            See [commit history](https://github.com/${{ github.repository }}/commits/${{ steps.mode.outputs.tag }}) for details.
-          draft: false
-          prerelease: ${{ steps.mode.outputs.prerelease == 'true' }}
           
       - name: Notify Parent Repository (Pipeline Mode Only)
         if: steps.mode.outputs.publish == 'true'
