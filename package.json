@@ -16,7 +16,10 @@
     "build-context:system": "tsx scripts/build-context.ts --scope system --format xml",
     "build-context:full": "tsx scripts/build-context.ts --scope full --format json --output dist/full-context.json",
     "automation:all": "npm run validate && npm run update-status && npm run build-context:full",
-    "prepublishOnly": "npm run build && npm run automation:all"
+    "prepublishOnly": "npm run build && npm run automation:all",
+    "test": "npm run validate",
+    "lint": "echo 'No linting configured'",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "prompts",
